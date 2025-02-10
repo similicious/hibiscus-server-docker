@@ -1,0 +1,19 @@
+# Documentation
+
+README.md
+
+# Git
+
+.git
+.gitignore
+
+# IDE
+
+.vscode
+.idea
+_.swp
+_.swo
+
+# Docker
+
+.dockerignore
