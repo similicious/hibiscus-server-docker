@@ -13,6 +13,29 @@ Docker container for [Hibiscus Payment Server](https://www.willuhn.de/products/h
 
 ## Quick Start
 
+### Using Pre-built Image from GitHub Container Registry
+
+1. Pull the image:
+
+```bash
+docker pull ghcr.io/similicious/hibiscus-server-docker:latest
+```
+
+2. Run the container (password required):
+
+```bash
+docker run -d \
+  --name hibiscus-server \
+  -p 8080:8080 \
+  -v hibiscus-data:/opt/hibiscus-data \
+  -e HIBISCUS_PASSWORD="your-password" \
+  ghcr.io/similicious/hibiscus-server-docker:latest
+```
+
+You can also use a specific version by replacing `latest` with a version tag like `2.10.24`.
+
+### Building Locally
+
 1. Build the image:
 
 ```bash
@@ -66,9 +89,18 @@ To build a specific version of Hibiscus Server:
 docker build -t hibiscus-server --build-arg HIBISCUS_VERSION=2.10.24 .
 ```
 
+## Available Tags
+
+The following tags are available from the GitHub Container Registry:
+
+- `latest`: Latest build from the main branch
+- `2.10.24`: Specific version releases
+- `<sha>`: Specific commit builds
+
 ## Security Notes
 
 - The server runs as non-root user 'hibiscus'
 - All data is persisted in a Docker volume
 - HTTPS is enabled by default
 - Sensitive data is stored in the persistent volume
+- Images are signed and include SBOM and provenance attestations
