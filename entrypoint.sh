@@ -8,6 +8,12 @@ if [ -z "$HIBISCUS_PASSWORD" ]; then
     exit 1
 fi
 
+# Configure database
+if [ "$HIBISCUS_DATABASE" = "h2" ]; then
+    # Remove MySQL config to enable H2 auto-setup
+    rm -f /opt/hibiscus/cfg/de.willuhn.jameica.hbci.rmi.HBCIDBService.properties
+fi
+
 # Create symbolic links for persistent storage
 if [ ! -d "/opt/hibiscus-data/.jameica" ]; then
     mkdir -p /opt/hibiscus-data/.jameica

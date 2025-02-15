@@ -4,9 +4,8 @@ Docker container for [Hibiscus Payment Server](https://www.willuhn.de/products/h
 
 ## Features
 
-- Based on Eclipse Temurin JRE 21 Alpine for modern Java features
 - Runs as non-root user
-- Uses embedded H2 database
+- By default uses embedded H2 database
 - Persistent data storage
 - Configurable version via build argument
 - Automatic health checking
@@ -31,8 +30,6 @@ docker run -d \
   -e HIBISCUS_PASSWORD="your-password" \
   ghcr.io/similicious/hibiscus-server-docker:latest
 ```
-
-You can also use a specific version by replacing `latest` with a version tag like `2.10.24`.
 
 ### Building Locally
 
@@ -64,6 +61,9 @@ Note: The container will fail to start if HIBISCUS_PASSWORD is not provided.
 ### Environment Variables
 
 - `HIBISCUS_PASSWORD`: Password for server access (required)
+- `HIBISCUS_DATABASE`: Database type to use (optional, default: "h2")
+  - `h2`: Use embedded H2 database (data stored in volume)
+  - `mysql`: Use MySQL database (requires configuration file to be mounted)
 
 ### Volumes
 

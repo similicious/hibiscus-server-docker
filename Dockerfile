@@ -25,9 +25,7 @@ WORKDIR /opt/hibiscus
 RUN curl -L -o hibiscus-server.zip https://www.willuhn.de/products/hibiscus-server/releases/hibiscus-server-${HIBISCUS_VERSION}.zip \
     && unzip hibiscus-server.zip \
     && mv hibiscus-server/* . \
-    && rm -rf hibiscus-server hibiscus-server.zip \
-    # Remove MySQL config to enable H2 auto-setup
-    && rm -f cfg/de.willuhn.jameica.hbci.rmi.HBCIDBService.properties
+    && rm -rf hibiscus-server hibiscus-server.zip
 
 # Create directory for persistent data
 RUN mkdir -p /opt/hibiscus-data \
@@ -47,8 +45,9 @@ EXPOSE 8080
 # Switch to non-root user
 USER hibiscus
 
-# Environment variable for Hibiscus password
+# Environment variables
 ENV HIBISCUS_PASSWORD=""
+ENV HIBISCUS_DATABASE="h2"
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
