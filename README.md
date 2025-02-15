@@ -7,7 +7,7 @@ Docker container for [Hibiscus Payment Server](https://www.willuhn.de/products/h
 - Runs as non-root user
 - By default uses embedded H2 database
 - Persistent data storage
-- Configurable version via build argument
+- Hibiscus version configurable via build argument
 - Automatic health checking
 
 ## Quick Start
@@ -50,24 +50,24 @@ docker run -d \
   hibiscus-server
 ```
 
-Note: The container will fail to start if HIBISCUS_PASSWORD is not provided.
+Note: The container will fail to start if `HIBISCUS_PASSWORD` is not provided.
 
 ## Configuration
 
 ### Build Arguments
 
-- `HIBISCUS_VERSION`: Version of Hibiscus Server to install (default: 2.10.24)
+- `HIBISCUS_VERSION`: Version of Hibiscus Server to build the container for (default: 2.10.24)
 
 ### Environment Variables
 
-- `PUID`: User ID for container user (optional, default: 1000)
-  To find your host user ID: `id -u`
-- `PGID`: Group ID for container user (optional, default: 1000)
-  To find your host group ID: `id -g`
 - `HIBISCUS_PASSWORD`: Password for server access (required)
 - `HIBISCUS_DATABASE`: Database type to use (optional, default: "h2")
   - `h2`: Use embedded H2 database (data stored in volume)
   - `mysql`: Use MySQL database (requires configuration file to be mounted)
+- `PUID`: User ID for container user (optional, default: 1000)
+  To find your host user ID: `id -u`
+- `PGID`: Group ID for container user (optional, default: 1000)
+  To find your host group ID: `id -g`
 
 ### Volumes
 
@@ -87,22 +87,8 @@ Default login:
 
 ## Building a Different Version
 
-To build a specific version of Hibiscus Server:
+To build the container for a specific version of Hibiscus Server:
 
 ```bash
 docker build -t hibiscus-server --build-arg HIBISCUS_VERSION=2.10.24 .
 ```
-
-## Available Tags
-
-The following tags are available from the GitHub Container Registry:
-
-- `latest`: Latest build from the main branch
-- `2.10.24`: Specific version releases
-
-## Security Notes
-
-- The server runs as non-root user 'abc' with configurable PUID/PGID
-- HTTPS is enabled by default
-- Sensitive data is stored in the persistent volume
-- Images are signed and include SBOM and provenance attestations
