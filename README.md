@@ -60,6 +60,10 @@ Note: The container will fail to start if HIBISCUS_PASSWORD is not provided.
 
 ### Environment Variables
 
+- `PUID`: User ID for container user (optional, default: 1000)
+  To find your host user ID: `id -u`
+- `PGID`: Group ID for container user (optional, default: 1000)
+  To find your host group ID: `id -g`
 - `HIBISCUS_PASSWORD`: Password for server access (required)
 - `HIBISCUS_DATABASE`: Database type to use (optional, default: "h2")
   - `h2`: Use embedded H2 database (data stored in volume)
@@ -95,12 +99,10 @@ The following tags are available from the GitHub Container Registry:
 
 - `latest`: Latest build from the main branch
 - `2.10.24`: Specific version releases
-- `<sha>`: Specific commit builds
 
 ## Security Notes
 
-- The server runs as non-root user 'hibiscus'
-- All data is persisted in a Docker volume
+- The server runs as non-root user 'abc' with configurable PUID/PGID
 - HTTPS is enabled by default
 - Sensitive data is stored in the persistent volume
 - Images are signed and include SBOM and provenance attestations

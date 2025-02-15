@@ -9,14 +9,16 @@ LABEL maintainer="hibiscus-server-docker maintainers"
 LABEL description="Hibiscus Payment Server with embedded H2 database"
 LABEL version="${HIBISCUS_VERSION}"
 
-# Create non-root user
-RUN addgroup -S hibiscus && adduser -S -G hibiscus hibiscus
+# Create abc user and group
+RUN addgroup -g 1000 abc && adduser -u 1000 -G abc -h /home/abc -D abc
 
 # Install required packages
 RUN apk add --no-cache \
     curl \
     unzip \
-    bash
+    bash \
+    su-exec \
+    shadow
 
 # Set working directory
 WORKDIR /opt/hibiscus
@@ -29,7 +31,7 @@ RUN curl -L -o hibiscus-server.zip https://www.willuhn.de/products/hibiscus-serv
 
 # Create directory for persistent data
 RUN mkdir -p /opt/hibiscus-data \
-    && chown -R hibiscus:hibiscus /opt/hibiscus /opt/hibiscus-data
+    && chown -R abc:abc /opt/hibiscus /opt/hibiscus-data
 
 # Copy entrypoint and healthcheck scripts
 COPY entrypoint.sh /
@@ -42,12 +44,12 @@ VOLUME /opt/hibiscus-data
 # Expose Hibiscus Server port
 EXPOSE 8080
 
-# Switch to non-root user
-USER hibiscus
 
 # Environment variables
 ENV HIBISCUS_PASSWORD=""
 ENV HIBISCUS_DATABASE="h2"
+ENV PUID=1000
+ENV PGID=1000
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
