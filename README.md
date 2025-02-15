@@ -64,9 +64,7 @@ Note: The container will fail to start if `HIBISCUS_PASSWORD` is not provided.
   - `h2`: Use embedded H2 database (data stored in volume)
   - `mysql`: Use MySQL database (requires configuration file to be mounted)
 - `PUID`: User ID for container user (optional, default: 1000)
-  To find your host user ID: `id -u`
 - `PGID`: Group ID for container user (optional, default: 1000)
-  To find your host group ID: `id -g`
 
 ### Volumes
 

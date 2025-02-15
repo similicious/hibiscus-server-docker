@@ -3,6 +3,8 @@ name: Docker Build and Publish
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - README.md
 
 env:
   REGISTRY: ghcr.io
