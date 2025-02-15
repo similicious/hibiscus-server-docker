@@ -1,8 +1,8 @@
 name: Docker Build and Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: ["main"]
 
 env:
   REGISTRY: ghcr.io
@@ -15,6 +15,16 @@ jobs:
       contents: read
       packages: write
       id-token: write
+    strategy:
+      matrix:
+        version: ["2.10.24", "2.10.23", "2.10.22"]
+        include:
+          - version: "2.10.24"
+            is_latest: true
+          - version: "2.10.23"
+            is_latest: false
+          - version: "2.10.22"
+            is_latest: false
 
     steps:
       - name: Checkout repository
@@ -36,7 +46,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{version}}
+            type=raw,value=${{ matrix.version }}
+            type=raw,value=latest,enable=${{ matrix.is_latest }}
           labels: |
             org.opencontainers.image.title=Hibiscus Payment Server
             org.opencontainers.image.description=Hibiscus Payment Server with embedded H2 database
@@ -51,7 +62,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            HIBISCUS_VERSION=${{ github.event.release.tag_name }}
+            HIBISCUS_VERSION=${{ matrix.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64

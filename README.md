@@ -1,12 +1,11 @@
 # Hibiscus Server Docker
 
-Docker container for [Hibiscus Payment Server](https://www.willuhn.de/products/hibiscus-server/), a Java-based banking server that supports automated transaction retrieval and payment processing.
+Docker image for [Hibiscus Payment Server](https://www.willuhn.de/products/hibiscus-server/), a Java-based banking server that supports automated transaction retrieval and payment processing.
 
 ## Features
 
 - Runs as non-root user
 - By default uses embedded H2 database
-- Persistent data storage
 - Hibiscus version configurable via build argument
 - Automatic health checking
 
