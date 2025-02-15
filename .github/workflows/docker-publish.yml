@@ -9,22 +9,29 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          content=$(cat versions.json)
+          echo "matrix=$(echo "$content" | jq -c '{include: .}')" >> $GITHUB_OUTPUT
+
   build:
+    needs: matrix
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       id-token: write
     strategy:
-      matrix:
-        version: ["2.10.24", "2.10.23", "2.10.22"]
-        include:
-          - version: "2.10.24"
-            is_latest: true
-          - version: "2.10.23"
-            is_latest: false
-          - version: "2.10.22"
-            is_latest: false
+      matrix: ${{ fromJSON(needs.matrix.outputs.matrix) }}
 
     steps:
       - name: Checkout repository
