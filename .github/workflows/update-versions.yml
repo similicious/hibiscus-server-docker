@@ -1,4 +1,4 @@
-name: Update Versions
+name: Update versions
 
 on:
   schedule:
@@ -8,10 +8,14 @@ on:
 jobs:
   update-versions:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Run get-versions script
         run: |
@@ -32,3 +36,5 @@ jobs:
       - name: Commit changes
         if: steps.changes.outputs.changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: updated hibiscus server version"
