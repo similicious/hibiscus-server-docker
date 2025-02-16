@@ -5,6 +5,8 @@ on:
     branches: ["main"]
     paths-ignore:
       - README.md
+      - get-versions.sh
+      - .github/workflows/update-versions.yml
 
 env:
   REGISTRY: ghcr.io

@@ -1,0 +1,34 @@
+name: Update Versions
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Run daily at midnight
+  workflow_dispatch:
+
+jobs:
+  update-versions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Run get-versions script
+        run: |
+          chmod +x get-versions.sh
+          ./get-versions.sh
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ "$(git status --porcelain versions.json)" ]; then
+            echo "versions.json changed"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "versions.json unchanged"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit changes
+        if: steps.changes.outputs.changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
