@@ -10,5 +10,9 @@
   {
     "version": "2.10.22",
     "is_latest": false
+  },
+  {
+    "version": "2.10.21",
+    "is_latest": false
   }
 ]
