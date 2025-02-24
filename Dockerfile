@@ -50,6 +50,7 @@ ENV HIBISCUS_PASSWORD=""
 ENV HIBISCUS_DATABASE="h2"
 ENV PUID=1000
 ENV PGID=1000
+ENV HIBISCUS_HTTPS_ENABLED="true"
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \

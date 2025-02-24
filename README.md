@@ -63,6 +63,8 @@ Note: The container will fail to start if `HIBISCUS_PASSWORD` is not provided.
 - `HIBISCUS_DATABASE`: Database type to use (optional, default: "h2")
   - `h2`: Use embedded H2 database (data stored in volume)
   - `mysql`: Use MySQL database (requires configuration file to be mounted)
+- `HIBISCUS_HTTPS_ENABLED`: Enable/disable HTTPS (optional, default: "true")
+  - When set to "false", the server will use HTTP instead of HTTPS
 - `PUID`: User ID for container user (optional, default: 1000)
 - `PGID`: Group ID for container user (optional, default: 1000)
 
@@ -75,7 +77,8 @@ Note: The container will fail to start if `HIBISCUS_PASSWORD` is not provided.
 
 ## Access
 
-The server is accessible via HTTPS on port 8080. Make sure to use `https://` when accessing the server (e.g., `https://localhost:8080/webadmin`).
+The server is accessible on port 8080. By default, it uses HTTPS (e.g., `https://localhost:8080/webadmin`).
+If HTTPS is disabled via `HIBISCUS_HTTPS_ENABLED=false`, use HTTP instead (e.g., `http://localhost:8080/webadmin`).
 
 Default login:
 

@@ -34,6 +34,11 @@ fi
 # Fix permissions
 chown -R abc:abc /opt/hibiscus /opt/hibiscus-data
 
+# Configure HTTPS
+if [ "$HIBISCUS_HTTPS_ENABLED" = "false" ]; then
+    sed -i 's/listener\.http\.ssl=true/listener.http.ssl=false/' /opt/hibiscus/cfg/de.willuhn.jameica.webadmin.Plugin.properties
+fi
+
 # Link .jameica directory to persistent storage
 rm -rf /home/abc/.jameica
 ln -s /opt/hibiscus-data/.jameica /home/abc/.jameica
