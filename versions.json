@@ -1,14 +1,14 @@
 [
   {
-    "version": "2.10.26",
+    "version": "2.10.27",
     "is_latest": true
   },
   {
-    "version": "2.10.25",
+    "version": "2.10.26",
     "is_latest": false
   },
   {
-    "version": "2.10.24",
+    "version": "2.10.25",
     "is_latest": false
   }
 ]
