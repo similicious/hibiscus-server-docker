@@ -1,14 +1,14 @@
 [
   {
-    "version": "2.12.3",
+    "version": "2.12.4",
     "is_latest": true
   },
   {
-    "version": "2.12.2",
+    "version": "2.12.3",
     "is_latest": false
   },
   {
-    "version": "2.12.1",
+    "version": "2.12.2",
     "is_latest": false
   }
 ]
