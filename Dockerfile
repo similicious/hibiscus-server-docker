@@ -15,6 +15,7 @@ RUN addgroup -g 1000 abc && adduser -u 1000 -G abc -h /home/abc -D abc
 # Install required packages
 RUN apk add --no-cache \
     curl \
+    gnupg \
     unzip \
     bash \
     su-exec \
@@ -23,11 +24,17 @@ RUN apk add --no-cache \
 # Set working directory
 WORKDIR /opt/hibiscus
 
-# Download and install Hibiscus Server
-RUN curl -L -o hibiscus-server.zip https://www.willuhn.de/products/hibiscus-server/releases/hibiscus-server-${HIBISCUS_VERSION}.zip \
+COPY hibiscus-signing-key.asc /tmp/hibiscus-signing-key.asc
+
+# Download, verify and install Hibiscus Server
+RUN gpg --batch --dearmor --output /tmp/hibiscus-server-keyring.gpg /tmp/hibiscus-signing-key.asc \
+    && curl -fL -o hibiscus-server.zip https://www.willuhn.de/products/hibiscus-server/releases/hibiscus-server-${HIBISCUS_VERSION}.zip \
+    && curl -fL -o hibiscus-server.zip.asc https://www.willuhn.de/products/hibiscus-server/releases/hibiscus-server-${HIBISCUS_VERSION}.zip.asc \
+    && gpgv --keyring /tmp/hibiscus-server-keyring.gpg hibiscus-server.zip.asc hibiscus-server.zip \
     && unzip hibiscus-server.zip \
     && mv hibiscus-server/* . \
-    && rm -rf hibiscus-server hibiscus-server.zip
+    && rm -rf hibiscus-server hibiscus-server.zip hibiscus-server.zip.asc \
+        /tmp/hibiscus-signing-key.asc /tmp/hibiscus-server-keyring.gpg
 
 # Create directory for persistent data
 RUN mkdir -p /opt/hibiscus-data \
